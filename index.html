@@ -593,7 +593,7 @@ async function loadFiles(files, mode) {
   if (mode === 'open' || state.sample) {
     for (const id of [...state.sources.keys()]) if (!added.some(p => p.src === id)) state.sources.delete(id);
     state.pages = added; hist = []; fut = []; state.sample = false;
-    $('#fname').value = list[0].name.replace(/\.pdf$/i, '') + '-edited.pdf';
+    $('#fname').value = list[0].name.replace(/\.pdf$/i, '').replace(/(-edited)+( \(\d+\))?$/i, '') + '-edited.pdf';
     state.sel = new Set(); state.anchor = null; state.selAnnot = null; state.cur = 0;
     setMode('read'); refreshAll(false); updateUndo(); viewer.scrollTop = 0; thumbsEl.scrollTop = 0;
     toast(list.length > 1 ? `Opened ${list.length} files as one document.` : `Opened ${list[0].name}`);
