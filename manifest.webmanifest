@@ -1,0 +1,50 @@
+{
+  "id": "/bench-pdf/",
+  "name": "BENCH.pdf",
+  "short_name": "BENCH.pdf",
+  "description": "Read, organize, search and mark up PDFs. Everything stays on this computer.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f5f7",
+  "theme_color": "#f4f5f7",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "./",
+      "accept": {
+        "application/pdf": [
+          ".pdf"
+        ]
+      },
+      "icons": [
+        {
+          "src": "icon-512.png",
+          "sizes": "512x512",
+          "type": "image/png"
+        }
+      ],
+      "launch_type": "single-client"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
+}
