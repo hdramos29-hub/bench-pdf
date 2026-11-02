@@ -1,5 +1,5 @@
 // BENCH.pdf offline cache. Bump VERSION when index.html changes.
-const VERSION = 'bench-pdf-v5';
+const VERSION = 'bench-pdf-v6';
 const LOCAL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png'];
 const LIBS = ['https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
