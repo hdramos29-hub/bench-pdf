@@ -178,25 +178,32 @@ kbd{font:600 10.5px/1 var(--body);padding:3px 5px;border-radius:5px;border:1px s
 
 /* ---------- work area ---------- */
 .work{display:grid;grid-template-rows:auto auto minmax(0,1fr);grid-template-columns:minmax(0,1fr);min-width:0;min-height:0;background:var(--panel);margin:10px 10px 10px 0;border:1px solid var(--line);border-left-color:var(--line);border-radius:0 22px 22px 0;overflow:hidden}
-/* open files: one tab per PDF, plain names, the open one underlined in ember, a dot for unsaved changes */
-.ftabs{display:flex;align-items:stretch;gap:2px;height:38px;padding:0 10px 0 14px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
-.ftabs::-webkit-scrollbar{display:none}
-.ftab{position:relative;display:flex;align-items:center;gap:4px;min-width:64px;max-width:220px;flex:0 1 auto;padding:0 4px 0 12px;border-radius:8px 8px 0 0;font-size:12px;font-weight:600;color:var(--mute);cursor:pointer;white-space:nowrap;user-select:none}
-.ftab:hover{color:var(--text);background:var(--panel2)}
-.ftab.on{color:var(--text)}
-.ftab.on::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2px;border-radius:2px;background:var(--primary)}
-.ftab .tn{overflow:hidden;text-overflow:ellipsis}
-.ftab .tc{width:20px;height:20px;display:grid;place-items:center;flex:none;padding:0;border:0;border-radius:6px;background:transparent;color:var(--mute)}
-.ftab .tc svg{width:12px;height:12px}
+/* open files: Chrome-style tabs on a darker band. The open tab is filled white, joined to the toolbar, with an ember line on top;
+   a dot replaces the x while a file has unsaved changes. The strip scrolls sideways instead of squashing tabs. */
+.ftabs{--band:var(--desk);display:flex;align-items:flex-end;gap:10px;height:42px;padding:0 14px 0 10px;background:var(--band);border-bottom:1px solid var(--line2)}
+[data-theme="ember"] .ftabs{--band:var(--frame)}
+.ftrack{flex:1;min-width:0;height:100%;display:flex;align-items:flex-end;gap:2px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+.ftrack::-webkit-scrollbar{display:none}
+.ftab{position:relative;flex:none;display:flex;align-items:center;gap:8px;height:34px;min-width:140px;max-width:240px;margin-bottom:-1px;padding:0 6px 0 12px;border:1px solid transparent;border-bottom:0;border-radius:10px 10px 0 0;font-size:13.5px;font-weight:600;color:var(--dim);cursor:pointer;white-space:nowrap;user-select:none;transition:background .12s,color .12s}
+.ftab:hover{background:color-mix(in srgb,var(--panel) 55%,var(--band));color:var(--text)}
+.ftab.on{height:36px;background:var(--panel);border-color:var(--line2);color:var(--text);z-index:1}
+.ftab.on::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:3px;border-radius:10px 10px 0 0;background:var(--primary)}
+.ftab .ti{width:16px;height:16px;flex:none;color:var(--mute)}
+.ftab.on .ti{color:var(--ink-o)}
+.ftab .tn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.ftab .tc{width:24px;height:24px;display:grid;place-items:center;flex:none;padding:0;border:0;border-radius:7px;background:transparent;color:var(--dim)}
+.ftab .tc svg{width:14px;height:14px}
 .ftab .tc:hover{background:var(--hover);color:var(--text)}
-.ftab .tc i{display:none;width:7px;height:7px;border-radius:50%;background:var(--primary)}
+.ftab.on .tc:hover{background:var(--panel2)}
+.ftab .tc i{display:none;width:9px;height:9px;border-radius:50%;background:var(--primary)}
 .ftab.dirty .tc i{display:block}
 .ftab.dirty .tc svg,.ftab.dirty:hover .tc i{display:none}
 .ftab.dirty:hover .tc svg{display:block}
 .ftab:not(.on):not(:hover):not(.dirty) .tc{visibility:hidden}
-.tplus{align-self:center;width:30px;height:30px;display:grid;place-items:center;flex:none;margin-left:2px;border:0;border-radius:8px;background:transparent;color:var(--mute)}
-.tplus:hover{background:var(--panel2);color:var(--text)}
+.tplus{flex:none;align-self:center;width:32px;height:32px;margin-left:8px;display:grid;place-items:center;padding:0;border:1px solid var(--line2);border-radius:50%;background:var(--panel);color:var(--text)}
+.tplus:hover{border-color:var(--text)}
 .tplus svg{width:16px;height:16px}
+.tcount{flex:none;align-self:center;font-size:12.5px;font-weight:650;color:var(--dim);white-space:nowrap}
 .top{display:flex;align-items:center;gap:16px;padding:14px 18px 14px 24px;border-bottom:1px solid var(--line);min-width:0}
 .titleblock{display:flex;flex-direction:column;min-width:0;flex:0 1 auto}
 .titleblock h1{margin:0;font-size:17px;font-weight:650;white-space:nowrap}
@@ -284,6 +291,10 @@ kbd{font:600 10.5px/1 var(--body);padding:3px 5px;border-radius:5px;border:1px s
 .sheet canvas,.sheet svg.ov,.sheet .tl{position:absolute;inset:0;width:100%;height:100%}
 .sheet .tl{pointer-events:none}
 .viewer.t-select .sheet{cursor:default}
+.viewer.t-hand,.viewer.t-hand .sheet,.viewer.t-hand .sheet *{cursor:grab}
+.viewer.spacehand,.viewer.spacehand *{cursor:grab!important}
+.viewer.grabbing,.viewer.grabbing *{cursor:grabbing!important}
+.float .ib[aria-pressed="true"]{color:var(--ink-o);box-shadow:inset 0 0 0 1.5px var(--primary)}
 .viewer.t-highlight .sheet,.viewer.t-box .sheet,.viewer.t-whiteout .sheet,.viewer.t-pen .sheet{cursor:crosshair}
 .viewer.t-text .sheet,.viewer.t-note .sheet{cursor:text}
 .viewer.t-stamp .sheet{cursor:copy}
@@ -527,6 +538,8 @@ kbd{font:600 10.5px/1 var(--body);padding:3px 5px;border-radius:5px;border:1px s
         <span class="zoomv" id="zoomv">100%</span>
         <button class="ib" id="bZoomIn" aria-label="Zoom in" title="Zoom in"></button>
         <button class="tx" id="bFit" title="Fit page width">Fit</button>
+        <span class="gap"></span>
+        <button class="ib" id="bHand" aria-label="Hand" aria-pressed="false" title="Hand: drag to move around (H, or hold Space)"></button>
       </div>
       <div class="float fl-right" id="sizePill" hidden>
         <button class="ib" id="bSmaller" aria-label="Smaller pages" title="Smaller pages"></button>
@@ -560,7 +573,7 @@ const SVGNS = 'http://www.w3.org/2000/svg';
 const viewer = $('#viewer'), thumbsEl = $('#thumbs');
 
 /* ---------- version: under the wordmark, on the logo, and in the window title ---------- */
-const BENCH_VERSION = '2.5', BENCH_BUILD = '';
+const BENCH_VERSION = '2.6', BENCH_BUILD = '';
 const VERSION_LABEL = 'v' + BENCH_VERSION + (BENCH_BUILD ? ' ' + BENCH_BUILD : '');
 $('#ver').textContent = VERSION_LABEL;
 $('#brand').title = $('.navmark').title = 'BENCH.pdf ' + VERSION_LABEL;
@@ -588,6 +601,8 @@ const IC = {
   check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   grip:'<circle cx="9" cy="6" r="1.2" fill="currentColor"/><circle cx="15" cy="6" r="1.2" fill="currentColor"/><circle cx="9" cy="12" r="1.2" fill="currentColor"/><circle cx="15" cy="12" r="1.2" fill="currentColor"/><circle cx="9" cy="18" r="1.2" fill="currentColor"/><circle cx="15" cy="18" r="1.2" fill="currentColor"/>',
   up:'<path d="M6 15l6-6 6 6"/>', down:'<path d="M6 9l6 6 6-6"/>', x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  doc:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',
+  hand:'<path d="M8 13V6a1.5 1.5 0 0 1 3 0v5"/><path d="M11 11V4.5a1.5 1.5 0 0 1 3 0V11"/><path d="M14 11V6a1.5 1.5 0 0 1 3 0v6"/><path d="M17 9.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1.6a6 6 0 0 1-4.7-2.3l-3-3.9a1.6 1.6 0 0 1 2.5-2L8 14.5"/>',
   plus:'<path d="M12 5v14M5 12h14"/>', minus:'<path d="M5 12h14"/>',
   tostart:'<path d="M5 4v16"/><path d="M19 12H9M13 8l-4 4 4 4"/>', toend:'<path d="M19 4v16"/><path d="M5 12h10M11 8l4 4-4 4"/>',
 };
@@ -596,7 +611,7 @@ const icon = n => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 /* ---------- state ---------- */
 const SRC_COLORS = ['#38bdf8','#5fcf9a','#f2a65a','#c7b2f5','#ef7083','#b2b8bf'];
 const COLORS = [['#1a1e27','Black'],['#c62828','Red'],['#1d4ed8','Blue'],['#15803d','Green']];
-const TOOLS = [['select','Select and move','v'],['highlight','Highlight','h'],['pen','Draw','p'],['text','Text','t'],['note','Sticky note','n'],['box','Box','b'],['whiteout','White-out','w'],['stamp','Stamp','s'],['fact','Mark a fact','f']];
+const TOOLS = [['hand','Hand','space'],['select','Select and move','v'],['highlight','Highlight','h'],['pen','Draw','p'],['text','Text','t'],['note','Sticky note','n'],['box','Box','b'],['whiteout','White-out','w'],['stamp','Stamp','s'],['fact','Mark a fact','f']];
 /* facts a packet tool needs (the Post Entry Workbench reads them from the saved PDF) */
 const FACTS = ['Commodity', 'HS code', 'Invoice value', 'Invoice number', 'Invoice date', 'Currency', 'Amount paid', 'Payment date', 'Country of origin', 'Other'];
 const state = { sources:new Map(), pages:[], sel:new Set(), anchor:null, cur:0, tool:'select', color:COLORS[0][0], size:12, zoom:'fit', selAnnot:null, sample:false, mode:'read' };
@@ -744,7 +759,10 @@ function tabBusy() {
 }
 function buildTabs() {
   const bar = $('#tabs'); if (!bar || !tabs.length) return;
-  bar.replaceChildren();
+  const keep = bar.querySelector('.ftrack')?.scrollLeft || 0;
+  const track = document.createElement('div'); track.className = 'ftrack';
+  track.addEventListener('wheel', e => { if (e.ctrlKey || !e.deltaY || track.scrollWidth <= track.clientWidth) return; e.preventDefault(); track.scrollLeft += e.deltaY; }, { passive: false });
+  bar.replaceChildren(track);
   tabs.forEach((t, i) => {
     const d = document.createElement('div'), nm = tabName(t), dirty = isDirty(t);
     d.className = 'ftab' + (i === tabCur ? ' on' : '') + (dirty ? ' dirty' : '');
@@ -758,10 +776,13 @@ function buildTabs() {
     d.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchTab(i); } };
     d.onmousedown = e => { if (e.button === 1) e.preventDefault(); };
     d.onauxclick = e => { if (e.button === 1) { e.preventDefault(); closeTab(i); } };
-    d.append(n, x); bar.append(d);
+    const ic = document.createElement('span'); ic.className = 'ti'; ic.innerHTML = icon('doc');
+    d.append(ic, n, x); track.append(d);
   });
   const plus = document.createElement('button'); plus.className = 'tplus'; plus.title = 'Open a PDF in a new tab (Ctrl+O)'; plus.setAttribute('aria-label', 'Open a PDF in a new tab');
-  plus.innerHTML = icon('plus'); plus.onclick = () => $('#fOpen').click(); bar.append(plus);
+  plus.innerHTML = icon('plus'); plus.onclick = () => $('#fOpen').click(); track.append(plus);
+  if (tabs.length > 6) { const c = document.createElement('span'); c.className = 'tcount'; c.textContent = tabs.length + ' files open'; bar.append(c); }
+  track.scrollLeft = keep;
   const t = tabs[tabCur];
   document.title = (t && t.title ? tabName(t).replace(/\.pdf$/i, '') + ' · ' : '') + 'BENCH.pdf ' + VERSION_LABEL;
   bar.querySelector('.ftab.on')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
@@ -1431,7 +1452,8 @@ function setMode(m) {
   document.querySelectorAll('.navbtn').forEach(b => b.setAttribute('aria-current', String(b.dataset.mode === m)));
   $('#modeTitle').textContent = m === 'read' ? docTitle() : MODE_TITLES[m];
   $('#bOrgL').textContent = m === 'organize' ? 'Back to document' : 'Organize pages';
-  if (m === 'read' && state.tool !== 'select') setTool('select');
+  if (m === 'read' && state.tool !== 'hand') setTool('hand');
+  if (m === 'markup' && state.tool === 'hand' && was !== 'markup') setTool('select');   // Mark up starts on Select, as before
   if (m !== 'markup' && state.selAnnot) { const p = pageByKey(state.selAnnot.key); selectAnnot(p, null); }
   if (was === 'organize' && m !== 'organize' && state.zoom === 'fit') refreshViewerOnly();
   updatePageActs(); updateStatus(); syncFloats();
@@ -1571,14 +1593,36 @@ new ResizeObserver(() => {
 /* ---------- markup tools UI ---------- */
 function setTool(t) {
   state.tool = t;
-  viewer.className = 'viewer t-' + t;
+  viewer.className = 'viewer t-' + t + (spaceHand ? ' spacehand' : '');
   document.querySelectorAll('#toolGrp [data-tool]').forEach(b => b.setAttribute('aria-pressed', b.dataset.tool === t));
+  $('#bHand').setAttribute('aria-pressed', String(t === 'hand'));
 }
+/* ---------- Hand: drag the document to move around it (the Read view's pointer; hold Space for it from any tool) ---------- */
+let spaceHand = false;
+function setSpaceHand(on) { spaceHand = on; viewer.classList.toggle('spacehand', on); }
+viewer.addEventListener('pointerdown', e => {
+  if (!(state.tool === 'hand' || spaceHand) || e.button !== 0 || editing || e.target.closest('button,a,input')) return;
+  const vr = viewer.getBoundingClientRect();
+  if (e.clientX - vr.left > viewer.clientWidth || e.clientY - vr.top > viewer.clientHeight) return;   // the scrollbars still work
+  e.preventDefault(); e.stopPropagation();   // capture phase: the markup tools never see it
+  const x0 = e.clientX, y0 = e.clientY, l0 = viewer.scrollLeft, t0 = viewer.scrollTop; let moved = false;
+  viewer.setPointerCapture(e.pointerId); viewer.classList.add('grabbing');
+  const mv = ev => { if (!moved && Math.hypot(ev.clientX - x0, ev.clientY - y0) < 3) return; moved = true; viewer.scrollLeft = l0 - (ev.clientX - x0); viewer.scrollTop = t0 - (ev.clientY - y0); };
+  const up = ev => {
+    viewer.removeEventListener('pointermove', mv); viewer.removeEventListener('pointerup', up); viewer.removeEventListener('pointercancel', up);
+    viewer.classList.remove('grabbing');
+    if (!moved) { const sh = document.elementFromPoint(ev.clientX, ev.clientY)?.closest('.sheet'); if (sh) setCurrent(state.pages.findIndex(p => p.key === sh.dataset.key)); }   // a click picks the page
+  };
+  viewer.addEventListener('pointermove', mv); viewer.addEventListener('pointerup', up); viewer.addEventListener('pointercancel', up);
+}, true);
+window.addEventListener('blur', () => setSpaceHand(false));
+document.addEventListener('keyup', e => { if (e.key === ' ' && spaceHand) { e.preventDefault(); setSpaceHand(false); } });
 function buildToolbar() {
   const g = $('#toolGrp');
   TOOLS.forEach(([t, label, key]) => {
     const b = document.createElement('button'); b.className = 'row'; b.dataset.tool = t;
-    b.innerHTML = icon(t) + `<span>${label}</span><kbd class="k">${key.toUpperCase()}</kbd>`;
+    b.innerHTML = icon(t) + `<span>${label}</span><kbd class="k">${key === 'space' ? 'Space' : key.toUpperCase()}</kbd>`;
+    if (t === 'hand') b.title = 'Hand: drag to move around the page. Hold Space for it from any tool; H in the Read view.';
     b.onclick = () => { setTool(t); closeSide(); }; g.append(b);
   });
   const sw = $('#swGrp');
@@ -1602,6 +1646,7 @@ function buildToolbar() {
   $('#bZoomIn').onclick = () => setZoom(curScale * 1.2);
   $('#bZoomOut').onclick = () => setZoom(curScale / 1.2);
   $('#bFit').onclick = () => setZoom('fit');
+  $('#bHand').innerHTML = icon('hand'); $('#bHand').onclick = () => setTool(state.tool === 'hand' ? 'select' : 'hand');
   $('#bSmaller').innerHTML = icon('minus'); $('#bBigger').innerHTML = icon('plus');
   const card = cardBy = d => { const v = Math.max(96, Math.min(320, (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--card')) || 156) + d)); document.documentElement.style.setProperty('--card', v + 'px'); try { localStorage.setItem('bench.pdf.card', v); } catch (e) {} };
   try { const v = +localStorage.getItem('bench.pdf.card'); if (v) document.documentElement.style.setProperty('--card', v + 'px'); } catch (e) {}
@@ -2172,8 +2217,10 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     if (state.selAnnot) { const p = pageByKey(state.selAnnot.key); selectAnnot(p, null); }
     else if (state.mode === 'organize' && state.sel.size) { state.sel.clear(); markSel(); }
-    setTool('select'); closeSide(); return;
+    setTool(state.mode === 'read' ? 'hand' : 'select'); closeSide(); return;
   }
+  if (e.key === ' ' && !mod && (e.target === document.body || viewer.contains(e.target))) { e.preventDefault(); if (!e.repeat) setSpaceHand(true); return; }
+  if (state.mode === 'read' && !mod && !e.altKey && k === 'h') { setTool(state.tool === 'hand' ? 'select' : 'hand'); return; }
   if (e.altKey && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
     const t = targets(); if (!t.length) return; e.preventDefault();
     const first = state.pages.indexOf(t[0]), last = state.pages.indexOf(t[t.length - 1]);
